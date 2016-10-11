@@ -22,7 +22,8 @@ public class GridNode : MonoBehaviour {
 	//显示一个图标
 	void OnDrawGizmos()
 	{
-		Gizmos.DrawIcon (this.transform.position, "gridnode.tif");
+        Vector3 tmp = new Vector3(this.transform.position.x + 0.5f, this.transform.position.y+0.5f, this.transform.position.z + 0.1f);
+        Gizmos.DrawIcon(tmp, "gridnode.tif");
 	}
 
 	// Use this for initialization

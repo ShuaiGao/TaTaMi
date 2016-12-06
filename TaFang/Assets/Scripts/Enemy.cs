@@ -2,14 +2,21 @@
 using System.Collections;
 
 public class Enemy : MonoBehaviour {
-
-    //protected LifeBar m_bar;
+    // 生命条
+    public Transform m_lifeBarObject;
+    protected LifeBar m_bar;
+    public EnemySpawner m_spawn = new EnemySpawner();
 
 	// Use this for initialization
 	void Start () {
         m_spawn.m_liveEnemy++;
 
         GameManager.Instance.m_EnemyList.Add(this);
+
+        //创建生命条
+        Transform obj = (Transform)Instantiate(m_lifeBarObject, this.transform.position, Quaternion.identity);
+        m_bar = obj.GetComponent<LifeBar>();
+        m_bar.Ini(m_life, m_maxlife, 2, 0.2f);
 	}
 	
 	// Update is called once per frame
@@ -25,10 +32,9 @@ public class Enemy : MonoBehaviour {
         if (GameManager.Instance)
             GameManager.Instance.m_EnemyList.Remove(this);
 
-        //if (m_bar)
-        //    Destroy(m_bar.gameObject);
+        if (m_bar)
+            Destroy(m_bar.gameObject);
     }
-    public EnemySpawner m_spawn;
     // 路点
     public PathNode m_currentNode;
     // 生命
@@ -90,6 +96,10 @@ public class Enemy : MonoBehaviour {
             //每消灭一个敌人增加一些点数
             GameManager.Instance.SetPoint(2);
             Destroy(this.gameObject);
+        }
+        else
+        {
+            m_bar.UpdateLife(m_life, m_maxlife);
         }
     }
 }

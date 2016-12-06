@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Enemy : MonoBehaviour {
     // 生命条
@@ -15,7 +16,9 @@ public class Enemy : MonoBehaviour {
 
         //创建生命条
         Transform obj = (Transform)Instantiate(m_lifeBarObject, this.transform.position, Quaternion.identity);
-        m_bar = obj.GetComponent<LifeBar>();
+        
+        m_bar = obj.GetComponent<LifeBar>() ?? obj.gameObject.AddComponent<LifeBar>();
+
         m_bar.Ini(m_life, m_maxlife, 2, 0.2f);
 	}
 	
@@ -85,6 +88,7 @@ public class Enemy : MonoBehaviour {
             }
         }
         this.transform.Translate(new Vector3(0, 0, m_speed * Time.deltaTime));
+        m_bar.SetPosition(this.transform.position, 4.0f);
     }
 
     public void SetDamage(int damage)
@@ -95,11 +99,13 @@ public class Enemy : MonoBehaviour {
             GameManager.Instance.m_EnemyList.Remove(this);
             //每消灭一个敌人增加一些点数
             GameManager.Instance.SetPoint(2);
+            Debug.LogFormat("dead ....");
             Destroy(this.gameObject);
         }
         else
         {
-            m_bar.UpdateLife(m_life, m_maxlife);
+            if (m_bar != null)
+                m_bar.UpdateLife(m_life, m_maxlife);
         }
     }
 }

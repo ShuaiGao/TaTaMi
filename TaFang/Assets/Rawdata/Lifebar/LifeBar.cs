@@ -62,10 +62,10 @@ public class LifeBar : MonoBehaviour
         float right = 0.5f + (1.0f - value)/2-0.01f;
 
         m_Uvs[0] = new Vector2(left, 0.0f);
-        m_Uvs[3] = new Vector2(left, 1.0f);
+        m_Uvs[1] = new Vector2(left, 1.0f);
 
-        m_Uvs[1] = new Vector2(right, 0.0f);
-        m_Uvs[2] = new Vector2(right, 1.0f);
+        m_Uvs[2] = new Vector2(right, 0.0f);
+        m_Uvs[3] = new Vector2(right, 1.0f);
 
         m_mesh.uv = m_Uvs;
     }
